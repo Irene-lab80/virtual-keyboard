@@ -1,0 +1,86 @@
+body{
+  /* background: hsl(47, 13%, 86%); */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.key {
+  background: rgb(255, 255, 255);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid grey;
+  cursor: pointer;
+  transition: all .4s;
+  width: 40px;
+  height: 40px;
+  margin: 4px;
+}
+
+.key_space {
+  width: 330px;
+}
+
+.key_wide {
+  width: 100px;
+}
+
+.key_medium {
+  width: 86px;
+}
+
+.key_tab {
+  width: 50px;
+}
+
+.key_colored {  
+  background: rgb(230, 208, 208);
+}
+
+.active {
+  transform: scale(90%);
+  background: rgb(230, 139, 166);
+}
+
+.key:hover {
+  transform: scale(90%);
+}
+
+.keyboard-container {
+  text-align: center;
+  /* display: flex; */
+  background: rgb(208, 205, 205);
+  width: 770px;
+  height: 310px;
+  padding: 10px;
+  border: 1px solid grey;
+  border-radius: 10px;
+}
+
+.textarea {
+  display: flex;
+  width: 782px;
+  height: 50px;
+  margin: 20px 0;
+  padding: 10px;
+}
+
+
+.message p {
+  line-height: 30px;
+  /* color: red; */
+}
+
+.unselectable {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
