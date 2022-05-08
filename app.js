@@ -80,6 +80,73 @@ const keyLayout = [
   "ControlRight",
 ];
 
+const keyLayoutUpper = [
+  "`",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "0",
+  "-",
+  "=",
+  "Backspace",
+  "Tab",
+  "Q",
+  "W",
+  "E",
+  "R",
+  "T",
+  "Y",
+  "U",
+  "I",
+  "O",
+  "P",
+  "{",
+  "}",
+  "|",
+  "Del",
+  "CapsLock",
+  "A",
+  "S",
+  "D",
+  "F",
+  "G",
+  "H",
+  "J",
+  "K",
+  "L",
+  ":",
+  '"',
+  "Enter",
+  "ShiftLeft",
+  "Z",
+  "X",
+  "C",
+  "V",
+  "B",
+  "N",
+  "M",
+  "<",
+  ">",
+  "?",
+  "ArrowUp",
+  "ShiftRight",
+  "ControlLeft",
+  "MetaLeft",
+  "AltLeft",
+  "Space",
+  "AltRight",
+  "ArrowLeft",
+  "ArrowDown",
+  "ArrowRight",
+  "ControlRight",
+];
+
 const keyLayoutRus = [
   "ё",
   "1",
@@ -147,6 +214,73 @@ const keyLayoutRus = [
   "ControlRight",
 ];
 
+const keyLayoutRusUpper = [
+  "Ё",
+  "!",
+  '"',
+  "№",
+  ";",
+  "%",
+  ":",
+  "?",
+  "*",
+  "(",
+  ")",
+  "_",
+  "+",
+  "Backspace",
+  "Tab",
+  "Й",
+  "Ц",
+  "У",
+  "К",
+  "Е",
+  "Н",
+  "Г",
+  "Ш",
+  "Щ",
+  "З",
+  "Х",
+  "Ъ",
+  "/",
+  "Del",
+  "CapsLock",
+  "Ф",
+  "Ы",
+  "В",
+  "А",
+  "П",
+  "Р",
+  "О",
+  "Л",
+  "Д",
+  "Ж",
+  "Э",
+  "Enter",
+  "ShiftLeft",
+  "Я",
+  "Ч",
+  "С",
+  "М",
+  "И",
+  "Т",
+  "Ь",
+  "Б",
+  "Ю",
+  ",",
+  "ArrowUp",
+  "ShiftRight",
+  "ControlLeft",
+  "MetaLeft",
+  "AltLeft",
+  "Space",
+  "AltRight",
+  "ArrowLeft",
+  "ArrowDown",
+  "ArrowRight",
+  "ControlRight",
+];
+
 // const key1 = document.createElement("div");
 // key1.className = "key";
 // key1.innerHTML = "1";
@@ -190,6 +324,14 @@ const createLayout = (lang) => {
     langLayout = keyLayoutRus;
     keyboardContainer.classList.add("keyboard-hidden");
     keyboardContainer.classList.add("keyboard-container-rus");
+  } else if (lang === "eng-upper") {
+    langLayout = keyLayoutUpper;
+    keyboardContainer.classList.add("keyboard-hidden");
+    keyboardContainer.classList.add("keyboard-container-upper");
+  } else if (lang === "rus-upper") {
+    langLayout = keyLayoutUpper;
+    keyboardContainer.classList.add("keyboard-hidden");
+    keyboardContainer.classList.add("keyboard-container-rus-upper");
   }
 
   langLayout.forEach((key, index) => {
@@ -281,30 +423,36 @@ const createLayout = (lang) => {
   });
 };
 
+// create layouts
 createLayout("eng");
-// createLayout("eng-upper");
-
-// createLayout("rus");
-// createLayout("rus-upper");
+createLayout("eng-upper");
+createLayout("rus");
+createLayout("rus-upper");
 
 // let flag = false;
-let keyboardContainerRus = document.querySelector(".keyboard-container-rus");
 let keyboardContainerEng = document.querySelector(".keyboard-container-eng");
+let keyboardContainerEngUpper = document.querySelector(
+  ".keyboard-container-upper"
+);
+
+// let keyboardContainerRus = document.querySelector(".keyboard-container-rus");
+// let keyboardContainerRusUpper = document.querySelector(".keyboard-container-rus-upper");
+
+// eng uppercase ================================================================
 window.addEventListener("keydown", (e) => {
   if (e.code == "AltLeft") {
-    // flag = true;
-    keyboardContainerRus.classList.remove("keyboard-hidden");
+    keyboardContainerEngUpper.classList.remove("keyboard-hidden");
     keyboardContainerEng.classList.add("keyboard-hidden");
   }
 });
 
 window.addEventListener("keyup", (e) => {
   if (e.code == "AltLeft") {
-    // flag = false;
-    keyboardContainerRus.classList.add("keyboard-hidden");
+    keyboardContainerEngUpper.classList.add("keyboard-hidden");
     keyboardContainerEng.classList.remove("keyboard-hidden");
   }
 });
+// eng uppercase end =============================================================
 
 // const CapsLock = document.querySelector(".capslock");
 
