@@ -197,16 +197,12 @@ const createLayout = (lang) => {
     const insertLineBreak =
       index == 13 || index == 28 || index == 41 || index == 54;
 
-    const keyElementWrapper = document.createElement("div");
-    keyElementWrapper.classList.add("key-wrapper");
-    keyboardContainer.append(keyElementWrapper);
-
     const keyElement = document.createElement("div");
     keyElement.classList.add("key");
     keyElement.innerText = key;
     keyElement.setAttribute("keyname", key);
     keyElement.setAttribute("keynameUpperCase", key.toUpperCase());
-    keyElementWrapper.append(keyElement);
+    keyboardContainer.append(keyElement);
 
     if (insertLineBreak) {
       keyboardContainer.append(document.createElement("br"));
@@ -232,17 +228,17 @@ const createLayout = (lang) => {
       key == "ArrowUp" ||
       key == "ArrowDown"
     ) {
-      keyElementWrapper.classList.add("key_colored");
+      keyElement.classList.add("key_colored");
     }
     if (key == "Space") {
-      keyElementWrapper.classList.add("key_space");
+      keyElement.classList.add("key_space");
     }
     if (key == "ShiftLeft") {
-      keyElementWrapper.classList.add("key_shift_left");
+      keyElement.classList.add("key_shift_left");
       keyElement.innerText = "Shift";
     }
     if (key == "ShiftRight") {
-      keyElementWrapper.classList.add("key_shift_right");
+      keyElement.classList.add("key_shift_right");
       keyElement.innerText = "Shift";
     }
     if (key == "AltLeft" || key == "AltRight") {
@@ -255,16 +251,16 @@ const createLayout = (lang) => {
       keyElement.innerText = "Ctrl";
     }
     if (key == "Enter" || key == "CapsLock") {
-      keyElementWrapper.classList.add("key_wide");
+      keyElement.classList.add("key_wide");
     }
     if (key == "Tab") {
-      keyElementWrapper.classList.add("key_tab");
+      keyElement.classList.add("key_tab");
     }
     // if (key == "CapsLock") {
     //   keyElement.classList.add("capslock");
     // }
     if (key == "Backspace") {
-      keyElementWrapper.classList.add("key_backspace");
+      keyElement.classList.add("key_backspace");
     }
     if (key == "ArrowLeft") {
       keyElement.innerHTML = "◄";
