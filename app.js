@@ -1,4 +1,9 @@
 const root = document.getElementById("root");
+// create title
+const title = document.createElement("h1");
+title.classList.add("title");
+title.innerHTML = "RSS Virtual Keyboard";
+root.append(title);
 
 // create textarea
 const textarea = document.createElement("textarea");
@@ -8,9 +13,6 @@ root.append(textarea);
 // create message
 const message = document.createElement("div");
 message.classList.add("message");
-message.innerHTML =
-  "<p>Клавиатура создана в операционной системе Windows <br> Для переключения языка комбинация: левыe ctrl + alt</p>";
-root.append(message);
 
 let keyboardContainer;
 const keyLayout = [
@@ -281,32 +283,6 @@ const keyLayoutRusUpper = [
   "ControlRight",
 ];
 
-// const key1 = document.createElement("div");
-// key1.className = "key";
-// key1.innerHTML = "1";
-// keyboardContainer.append(key1);
-
-// const key2 = document.createElement("div");
-// key2.className = "key";
-// key2.innerHTML = "2";
-// keyboardContainer.append(key2);
-// let keyElement;
-
-// document.onkeydown = function (e) {
-//   // console.log(e);
-//   if (e.key == "Alt") {
-//     flag = true;
-//   }
-
-//   if (e.key == "Control") {
-//     flag = false;
-//     console.log("HI");
-//   }
-//   if (e.key == "Alt") {
-//     // flag = false;
-//   }
-// };
-
 // CREATE UI
 const createLayout = (lang) => {
   // create container
@@ -423,36 +399,57 @@ const createLayout = (lang) => {
   });
 };
 
-// create layouts
+// create layouts / ================================================================
 createLayout("eng");
 createLayout("eng-upper");
 createLayout("rus");
 createLayout("rus-upper");
 
-// let flag = false;
+//create message
+message.innerHTML =
+  "<p>Клавиатура создана в операционной системе Windows <br> Для переключения языка комбинация: левыe ctrl + alt</p>";
+root.append(message);
+
+// keyboardContainer ========================================================
 let keyboardContainerEng = document.querySelector(".keyboard-container-eng");
 let keyboardContainerEngUpper = document.querySelector(
   ".keyboard-container-upper"
 );
 
-// let keyboardContainerRus = document.querySelector(".keyboard-container-rus");
-// let keyboardContainerRusUpper = document.querySelector(".keyboard-container-rus-upper");
+let keyboardContainerRus = document.querySelector(".keyboard-container-rus");
+let keyboardContainerRusUpper = document.querySelector(
+  ".keyboard-container-rus-upper"
+);
 
-// eng uppercase ================================================================
+// uppercase / ================================================================
 window.addEventListener("keydown", (e) => {
-  if (e.code == "ShiftLeft") {
+  if (e.key == "Shift") {
     keyboardContainerEngUpper.classList.remove("keyboard-hidden");
     keyboardContainerEng.classList.add("keyboard-hidden");
   }
 });
 
 window.addEventListener("keyup", (e) => {
-  if (e.code == "ShiftLeft") {
+  if (e.key == "Shift") {
     keyboardContainerEngUpper.classList.add("keyboard-hidden");
     keyboardContainerEng.classList.remove("keyboard-hidden");
   }
 });
-// eng uppercase end =============================================================
+
+// CHANGE LANGUAGE =============================================================
+let flag = false;
+
+document.onkeydown = function (e) {
+  if (e.code == "ControlLeft") flag = true;
+  if (e.code == "AltLeft" && flag) {
+    flag = false;
+    keyboardContainerRus.classList.toggle("keyboard-hidden");
+    // keyboardContainerRusUpper.classList.toggle("keyboard-hidden");
+
+    keyboardContainerEng.classList.toggle("keyboard-hidden");
+    // keyboardContainerEngUpper.classList.toggle("keyboard-hidden");
+  }
+};
 
 // const CapsLock = document.querySelector(".capslock");
 
@@ -481,7 +478,10 @@ keys.forEach((el) =>
       el.getAttribute("keyname") == "AltRight" ||
       el.getAttribute("keyname") == "ControlLeft" ||
       el.getAttribute("keyname") == "ControlRight" ||
-      el.getAttribute("keyname") == "MetaLeft"
+      el.getAttribute("keyname") == "MetaLeft" ||
+      el.getAttribute("keyname") == "ShiftLeft" ||
+      el.getAttribute("keyname") == "ShiftRight" ||
+      el.getAttribute("keyname") == "CapsLock"
     ) {
       textarea.value;
     } else if (el.getAttribute("keyname") == "ArrowLeft") {
@@ -558,27 +558,7 @@ window.addEventListener("keyup", (e) => {
   });
 });
 
-// textarea.addEventListener("input", (evt) => {
-//   console.log(evt.target.value);
-// });
-// textarea.addEventListener("input", (evt) => {
-//   console.log(evt.data);
-//   window.addEventListener("keypress", (e) => {
-//     textarea.focus();
-//     if (e.key == evt.data) {
-//       alert("123");
-//     }
-
-//     // if (e.key === evt.data) {
-//     //   // keyElement.classList.add("active");
-//     //   // alert("1");
-//     // }
-//     // if (e.key === "2") {
-//     //   e.classList.add("active");
-//     // }
-//   });
-// });
-
+// PREVENT DEFAULT ===========================================
 window.addEventListener("keydown", (e) => {
   // console.log(e.code);
   if (e.key == "Tab") {
@@ -600,3 +580,6 @@ window.addEventListener("keydown", (e) => {
     e.preventDefault();
   }
 });
+
+// the application saves a chosen language after the page is reloaded and displays the keyboard on that language
+// the Del key removes character after the text cursor
