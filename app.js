@@ -440,14 +440,14 @@ let keyboardContainerEngUpper = document.querySelector(
 
 // eng uppercase ================================================================
 window.addEventListener("keydown", (e) => {
-  if (e.code == "AltLeft") {
+  if (e.code == "ShiftLeft") {
     keyboardContainerEngUpper.classList.remove("keyboard-hidden");
     keyboardContainerEng.classList.add("keyboard-hidden");
   }
 });
 
 window.addEventListener("keyup", (e) => {
-  if (e.code == "AltLeft") {
+  if (e.code == "ShiftLeft") {
     keyboardContainerEngUpper.classList.add("keyboard-hidden");
     keyboardContainerEng.classList.remove("keyboard-hidden");
   }
