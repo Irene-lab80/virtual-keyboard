@@ -1,23 +1,18 @@
-const container = document.getElementById("root");
+const root = document.getElementById("root");
 
 // create textarea
 const textarea = document.createElement("textarea");
 textarea.classList.add("textarea");
-container.append(textarea);
-
-// create container
-const keyboardContainer = document.createElement("div");
-keyboardContainer.classList.add("keyboard-container");
-keyboardContainer.classList.add("unselectable");
-container.append(keyboardContainer);
+root.append(textarea);
 
 // create message
 const message = document.createElement("div");
 message.classList.add("message");
 message.innerHTML =
   "<p>Клавиатура создана в операционной системе Windows <br> Для переключения языка комбинация: левыe ctrl + alt</p>";
-container.append(message);
+root.append(message);
 
+let keyboardContainer;
 const keyLayout = [
   "`",
   "1",
@@ -61,7 +56,7 @@ const keyLayout = [
   ";",
   "'",
   "Enter",
-  "Shift",
+  "ShiftLeft",
   "z",
   "x",
   "c",
@@ -72,17 +67,17 @@ const keyLayout = [
   ",",
   ".",
   "/",
-  "^",
-  "Shift",
-  "Ctrl",
-  "Win",
-  "Alt",
+  "ArrowUp",
+  "ShiftRight",
+  "ControlLeft",
+  "MetaLeft",
+  "AltLeft",
   "Space",
-  "Alt",
-  "<",
-  "v",
-  ">",
-  "Ctrl",
+  "AltRight",
+  "ArrowLeft",
+  "ArrowDown",
+  "ArrowRight",
+  "ControlRight",
 ];
 
 const keyLayoutRus = [
@@ -128,7 +123,7 @@ const keyLayoutRus = [
   "ж",
   "э",
   "Enter",
-  "Shift",
+  "ShiftLeft",
   "я",
   "ч",
   "с",
@@ -139,17 +134,17 @@ const keyLayoutRus = [
   "б",
   "ю",
   ".",
-  "^",
-  "Shift",
-  "Ctrl",
-  "Win",
-  "Alt",
+  "ArrowUp",
+  "ShiftRight",
+  "ControlLeft",
+  "MetaLeft",
+  "AltLeft",
   "Space",
-  "Alt",
-  "<",
-  "v",
-  ">",
-  "Ctrl",
+  "AltRight",
+  "ArrowLeft",
+  "ArrowDown",
+  "ArrowRight",
+  "ControlRight",
 ];
 
 // const key1 = document.createElement("div");
@@ -162,8 +157,6 @@ const keyLayoutRus = [
 // key2.innerHTML = "2";
 // keyboardContainer.append(key2);
 // let keyElement;
-
-let flag = false;
 
 // document.onkeydown = function (e) {
 //   // console.log(e);
@@ -181,13 +174,22 @@ let flag = false;
 // };
 
 // CREATE UI
-const createLayout = () => {
+const createLayout = (lang) => {
+  // create container
+  keyboardContainer = document.createElement("div");
+
+  keyboardContainer.classList.add("keyboard-container");
+  keyboardContainer.classList.add("unselectable");
+  root.append(keyboardContainer);
+
   let langLayout;
-  if (flag === false) {
-    console.log("123");
+  if (lang === "eng") {
     langLayout = keyLayout;
-  } else {
+    keyboardContainer.classList.add("keyboard-container-eng");
+  } else if (lang === "rus") {
     langLayout = keyLayoutRus;
+    keyboardContainer.classList.add("keyboard-hidden");
+    keyboardContainer.classList.add("keyboard-container-rus");
   }
 
   langLayout.forEach((key, index) => {
@@ -195,52 +197,124 @@ const createLayout = () => {
     const insertLineBreak =
       index == 13 || index == 28 || index == 41 || index == 54;
 
+    const keyElementWrapper = document.createElement("div");
+    keyElementWrapper.classList.add("key-wrapper");
+    keyboardContainer.append(keyElementWrapper);
+
     const keyElement = document.createElement("div");
     keyElement.classList.add("key");
     keyElement.innerText = key;
     keyElement.setAttribute("keyname", key);
-    keyboardContainer.append(keyElement);
+    keyElement.setAttribute("keynameUpperCase", key.toUpperCase());
+    keyElementWrapper.append(keyElement);
 
     if (insertLineBreak) {
       keyboardContainer.append(document.createElement("br"));
     }
-
     if (
       key == "Caps" ||
-      key == "Shift" ||
+      key == "ShiftLeft" ||
+      key == "ShiftRight" ||
       key == "Enter" ||
       key == "Backspace" ||
       key == "Tab" ||
       key == "CapsLock" ||
-      key == "Ctrl" ||
-      key == "Alt" ||
+      key == "ControlLeft" ||
+      key == "ControlRight" ||
+      key == "AltLeft" ||
+      key == "AltRight" ||
       key == "CapsLock" ||
-      key == "Win" ||
+      key == "MetaLeft" ||
       key == "Del" ||
-      key == "Space"
+      key == "Space" ||
+      key == "ArrowLeft" ||
+      key == "ArrowRight" ||
+      key == "ArrowUp" ||
+      key == "ArrowDown"
     ) {
-      // console.log("ok");
-      keyElement.classList.add("key_colored");
+      keyElementWrapper.classList.add("key_colored");
     }
     if (key == "Space") {
-      // console.log("ok");
-      keyElement.classList.add("key_space");
+      keyElementWrapper.classList.add("key_space");
     }
-    if (
-      key == "Shift" ||
-      key == "Enter" ||
-      key == "Backspace" ||
-      key == "CapsLock"
-    ) {
-      keyElement.classList.add("key_wide");
+    if (key == "ShiftLeft") {
+      keyElementWrapper.classList.add("key_shift_left");
+      keyElement.innerText = "Shift";
+    }
+    if (key == "ShiftRight") {
+      keyElementWrapper.classList.add("key_shift_right");
+      keyElement.innerText = "Shift";
+    }
+    if (key == "AltLeft" || key == "AltRight") {
+      keyElement.innerText = "Alt";
+    }
+    if (key == "MetaLeft") {
+      keyElement.innerText = "Win";
+    }
+    if (key == "ControlLeft" || key == "ControlRight") {
+      keyElement.innerText = "Ctrl";
+    }
+    if (key == "Enter" || key == "CapsLock") {
+      keyElementWrapper.classList.add("key_wide");
     }
     if (key == "Tab") {
-      keyElement.classList.add("key_tab");
+      keyElementWrapper.classList.add("key_tab");
+    }
+    // if (key == "CapsLock") {
+    //   keyElement.classList.add("capslock");
+    // }
+    if (key == "Backspace") {
+      keyElementWrapper.classList.add("key_backspace");
+    }
+    if (key == "ArrowLeft") {
+      keyElement.innerHTML = "◄";
+      keyElement.classList.add("arrow");
+    }
+    if (key == "ArrowRight") {
+      keyElement.innerHTML = "►";
+      keyElement.classList.add("arrow");
+    }
+    if (key == "ArrowUp") {
+      keyElement.innerHTML = "▲";
+      keyElement.classList.add("arrow");
+    }
+    if (key == "ArrowDown") {
+      keyElement.innerHTML = "▼";
+      keyElement.classList.add("arrow");
     }
   });
 };
 
-createLayout();
+createLayout("eng");
+// createLayout("eng-upper");
+
+// createLayout("rus");
+// createLayout("rus-upper");
+
+// let flag = false;
+let keyboardContainerRus = document.querySelector(".keyboard-container-rus");
+let keyboardContainerEng = document.querySelector(".keyboard-container-eng");
+window.addEventListener("keydown", (e) => {
+  if (e.code == "AltLeft") {
+    // flag = true;
+    keyboardContainerRus.classList.remove("keyboard-hidden");
+    keyboardContainerEng.classList.add("keyboard-hidden");
+  }
+});
+
+window.addEventListener("keyup", (e) => {
+  if (e.code == "AltLeft") {
+    // flag = false;
+    keyboardContainerRus.classList.add("keyboard-hidden");
+    keyboardContainerEng.classList.remove("keyboard-hidden");
+  }
+});
+
+// const CapsLock = document.querySelector(".capslock");
+
+// CapsLock.addEventListener("click", () => {
+//   CapsLock.classList.toggle("active");
+// });
 
 // clicks on virtual keyboard
 let keys = document.querySelectorAll(".key");
@@ -259,21 +333,35 @@ keys.forEach((el) =>
     } else if (el.getAttribute("keyname") == "Tab") {
       textarea.value = textarea.value + "    ";
     } else if (
-      el.getAttribute("keyname") == "Alt" ||
-      el.getAttribute("keyname") == "Ctrl" ||
-      el.getAttribute("keyname") == "Win"
+      el.getAttribute("keyname") == "AltLeft" ||
+      el.getAttribute("keyname") == "AltRight" ||
+      el.getAttribute("keyname") == "ControlLeft" ||
+      el.getAttribute("keyname") == "ControlRight" ||
+      el.getAttribute("keyname") == "MetaLeft"
     ) {
       textarea.value;
+    } else if (el.getAttribute("keyname") == "ArrowLeft") {
+      textarea.value = textarea.value + "◄";
+    } else if (el.getAttribute("keyname") == "ArrowRight") {
+      textarea.value = textarea.value + "►";
+    } else if (el.getAttribute("keyname") == "ArrowUp") {
+      textarea.value = textarea.value + "▲";
+    } else if (el.getAttribute("keyname") == "ArrowDown") {
+      textarea.value = textarea.value + "▼";
     } else {
       textarea.value = textarea.value + el.getAttribute("keyname");
     }
   })
 );
 
-// add active class from virtual keyboard keys
+// add active class on virtual keyboard keys
 keys.forEach((el) =>
   el.addEventListener("mousedown", () => {
-    el.classList.add("active");
+    if (el.getAttribute("keyname") == "CapsLock") {
+      el.classList.toggle("active");
+    } else {
+      el.classList.add("active");
+    }
     textarea.focus();
   })
 );
@@ -281,26 +369,46 @@ keys.forEach((el) =>
 // remove active class from virtual keyboard keys
 keys.forEach((el) =>
   el.addEventListener("mouseup", () => {
-    el.classList.remove("active");
+    if (el.getAttribute("keyname") != "CapsLock") {
+      el.classList.remove("active");
+    }
   })
 );
 
 //clicks on real keyboard
 window.addEventListener("keydown", (e) => {
   textarea.focus();
-
   keys.forEach((el) => {
-    if (e.key == el.getAttribute("keyname")) {
+    if (
+      e.key == el.getAttribute("keyname") ||
+      e.code == el.getAttribute("keyname") ||
+      e.key == el.getAttribute("keynameUpperCase")
+    ) {
       el.classList.add("active");
-      // console.log(el.getAttribute("keyname"));
-      // console.log(el);
     }
   });
+  if (e.key == "ArrowLeft") {
+    textarea.value = textarea.value + "◄";
+    textarea.selectionStart = textarea.value.length;
+  }
+  if (e.key == "ArrowRight") {
+    textarea.value = textarea.value + "►";
+  }
+  if (e.key == "ArrowUp") {
+    textarea.value = textarea.value + "▲";
+  }
+  if (e.key == "ArrowDown") {
+    textarea.value = textarea.value + "▼";
+  }
 });
 
 window.addEventListener("keyup", (e) => {
   keys.forEach((el) => {
-    if (e.key == el.getAttribute("keyname")) {
+    if (
+      e.key == el.getAttribute("keyname") ||
+      e.code == el.getAttribute("keyname") ||
+      e.key == el.getAttribute("keynameUpperCase")
+    ) {
       el.classList.remove("active");
     }
   });
@@ -326,3 +434,25 @@ window.addEventListener("keyup", (e) => {
 //     // }
 //   });
 // });
+
+window.addEventListener("keydown", (e) => {
+  // console.log(e.code);
+  if (e.key == "Tab") {
+    e.preventDefault();
+  }
+  if (e.key == "ArrowLeft") {
+    e.preventDefault();
+  }
+  if (e.key == "ArrowRight") {
+    e.preventDefault();
+  }
+  if (e.key == "ArrowUp") {
+    e.preventDefault();
+  }
+  if (e.key == "ArrowDown") {
+    e.preventDefault();
+  }
+  if (e.key == "Alt") {
+    e.preventDefault();
+  }
+});
