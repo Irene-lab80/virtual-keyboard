@@ -146,11 +146,7 @@ window.addEventListener("keydown", (e) => {
     e.code != "AltRight"
   ) {
     keys.forEach((el) => {
-      if (
-        e.key == el.getAttribute("keyname") ||
-        e.code == el.getAttribute("keyname") ||
-        e.key == el.getAttribute("keynameUpperCase")
-      ) {
+      if (e.key == el.innerHTML) {
         el.classList.add("active-toggle");
       } else if (e.key == "ArrowLeft") {
         ArrowLeft.classList.add("active-toggle");
@@ -187,11 +183,7 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener("keyup", (e) => {
   if (e.key != "CapsLock" && e.code != "ShiftLeft" && e.code != "ShiftRight") {
     keys.forEach((el) => {
-      if (
-        e.key == el.getAttribute("keyname") ||
-        e.code == el.getAttribute("keyname") ||
-        e.key == el.getAttribute("keynameUpperCase")
-      ) {
+      if (e.key == el.innerHTML) {
         el.classList.remove("active-toggle");
       }
 
