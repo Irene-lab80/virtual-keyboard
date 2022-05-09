@@ -41,23 +41,15 @@ keys.forEach((key) => {
   }
   if (keyCode == "ShiftL") {
     key.classList.add("key_shift_left");
-    key.classList.add("shift");
   }
   if (keyCode == "ShiftR") {
     key.classList.add("key_shift_right");
-    key.classList.add("shift");
-  }
-  if (keyCode == "Alt" || keyCode == "Alt") {
-    key.innerText = "Alt";
   }
   if (keyCode == "Enter" || keyCode == "CapsLock") {
     key.classList.add("key_wide");
   }
   if (keyCode == "Tab") {
     key.classList.add("key_tab");
-  }
-  if (keyCode == "CapsLock") {
-    key.classList.add("capslock");
   }
   if (keyCode == "Backspace") {
     key.classList.add("key_backspace");
@@ -194,7 +186,7 @@ window.addEventListener("keydown", (e) => {
 // the application saves a chosen language after the page is reloaded and displays the keyboard on that language
 // the Del key removes character after the text cursor
 
-const capsLock = document.querySelector(".capslock");
+const capsLock = document.getElementById("CapsLock");
 
 capsLock.addEventListener("click", () => {
   capsLock.classList.toggle("active-toggle");
@@ -206,24 +198,46 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
-const shift = document.querySelector(".shift");
+const shift = document.querySelector("#ShiftL");
+const shiftR = document.querySelector("#ShiftR");
 
 shift.addEventListener("mousedown", () => {
   shift.classList.add("active-toggle");
 });
+
+shiftR.addEventListener("mousedown", () => {
+  shift.classList.add("active-toggle");
+});
+
 shift.addEventListener("mouseup", () => {
   shift.classList.remove("active-toggle");
 });
 
+shiftR.addEventListener("mouseup", () => {
+  shift.classList.remove("active-toggle");
+});
+
 window.addEventListener("keydown", (e) => {
-  if (e.code === "ShiftLeft" || e.code === "ShiftRigth") {
+  if (e.code === "ShiftLeft") {
     shift.classList.add("active-toggle");
   }
 });
 
+window.addEventListener("keydown", (e) => {
+  if (e.code === "ShiftRight") {
+    shiftR.classList.add("active-toggle");
+  }
+});
+
 window.addEventListener("keyup", (e) => {
-  if (e.code === "ShiftLeft" || e.code === "ShiftRigth") {
+  if (e.code === "ShiftLeft") {
     shift.classList.remove("active-toggle");
+  }
+});
+
+window.addEventListener("keyup", (e) => {
+  if (e.code === "ShiftRight") {
+    shiftR.classList.remove("active-toggle");
   }
 });
 
@@ -264,7 +278,16 @@ capsLock.addEventListener("click", () => {
 // SHIFT UPPERCASE
 // shift keydown
 window.addEventListener("keydown", (e) => {
-  if (e.code === "ShiftLeft" || e.code === "ShiftRigth") {
+  if (e.code === "ShiftLeft") {
+    if (e.repeat) {
+      return;
+    }
+    uppercase();
+  }
+});
+
+window.addEventListener("keydown", (e) => {
+  if (e.code === "ShiftRight") {
     if (e.repeat) {
       return;
     }
@@ -273,7 +296,16 @@ window.addEventListener("keydown", (e) => {
 });
 
 window.addEventListener("keyup", (e) => {
-  if (e.code === "ShiftLeft" || e.code === "ShiftRigth") {
+  if (e.code === "ShiftLeft") {
+    if (e.repeat) {
+      return;
+    }
+    uppercase();
+  }
+});
+
+window.addEventListener("keyup", (e) => {
+  if (e.code === "ShiftRight") {
     if (e.repeat) {
       return;
     }
@@ -287,6 +319,14 @@ shift.addEventListener("mousedown", () => {
 });
 
 shift.addEventListener("mouseup", () => {
+  uppercase();
+});
+
+shiftR.addEventListener("mousedown", () => {
+  uppercase();
+});
+
+shiftR.addEventListener("mouseup", () => {
   uppercase();
 });
 
