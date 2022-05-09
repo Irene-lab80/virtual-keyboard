@@ -63,7 +63,7 @@ export const keyLayout = [
   "◄",
   "▼",
   "►",
-  "Ctrl",
+  "Fn",
 ];
 
 export const keyLayoutUpper = [
@@ -130,7 +130,7 @@ export const keyLayoutUpper = [
   "◄",
   "▼",
   "►",
-  "Ctrl",
+  "Fn",
 ];
 
 export const keyLayoutRus = [
@@ -197,7 +197,7 @@ export const keyLayoutRus = [
   "◄",
   "▼",
   "►",
-  "Ctrl",
+  "Fn",
 ];
 
 export const keyLayoutRusUpper = [
@@ -264,5 +264,5 @@ export const keyLayoutRusUpper = [
   "◄",
   "▼",
   "►",
-  "Ctrl",
+  "Fn",
 ];

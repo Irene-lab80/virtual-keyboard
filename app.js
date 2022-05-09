@@ -25,6 +25,7 @@ keys.forEach((key) => {
     keyCode == "Tab" ||
     keyCode == "CapsLock" ||
     keyCode == "Ctrl" ||
+    keyCode == "Fn" ||
     keyCode == "Alt" ||
     keyCode == "Win" ||
     keyCode == "Del" ||
@@ -72,15 +73,16 @@ keys.forEach((el) =>
       textarea.value = textarea.value + "    ";
     } else if (
       el.getAttribute("keyname") == "Alt" ||
-      el.getAttribute("keyname") == "Alt" ||
       el.getAttribute("keyname") == "Ctrl" ||
       el.getAttribute("keyname") == "Ctrl" ||
       el.getAttribute("keyname") == "Win" ||
       el.getAttribute("keyname") == "ShiftL" ||
       el.getAttribute("keyname") == "ShiftR" ||
-      el.getAttribute("keyname") == "CapsLock"
+      el.getAttribute("keyname") == "CapsLock" ||
+      el.getAttribute("keyname") == "Fn"
     ) {
       textarea.value;
+      textarea.focus();
     } else {
       textarea.value = textarea.value + el.innerHTML;
     }
@@ -114,23 +116,58 @@ const removeActive = () => {
     }
   });
 };
+const ArrowLeft = document.getElementById("◄");
+const ArrowRight = document.getElementById("►");
+const ArrowUp = document.getElementById("▲");
+const ArrowDown = document.getElementById("▼");
+const win = document.getElementById("Win");
+const CtrlLeft = document.getElementById("Ctrl");
+const Alt = document.querySelectorAll("#Alt");
 
 //clicks on real keyboard
+window.addEventListener("keydown", (e) => {
+  if (e.code == "AltLeft") {
+    Alt[0].classList.add("active-toggle");
+  } else if (e.code == "AltRight") {
+    Alt[1].classList.add("active-toggle");
+  }
+});
+
 window.addEventListener("keydown", (e) => {
   textarea.focus();
   if (e.repeat) {
     return;
   }
-  if (e.key != "CapsLock" && e.code != "ShiftLeft" && e.code != "ShiftRight") {
+  if (
+    e.key != "CapsLock" &&
+    e.code != "ShiftLeft" &&
+    e.code != "ShiftRight" &&
+    e.code != "AltLeft" &&
+    e.code != "AltRight"
+  ) {
     keys.forEach((el) => {
-      if (
-        e.key == el.getAttribute("keyname") ||
-        e.code == el.getAttribute("keyname") ||
-        e.key == el.getAttribute("keynameUpperCase")
-      ) {
+      if (e.key == el.innerHTML) {
         el.classList.add("active-toggle");
+      } else if (e.key == "ArrowLeft") {
+        ArrowLeft.classList.add("active-toggle");
+      }
+      if (e.key == "ArrowRight") {
+        ArrowRight.classList.add("active-toggle");
+      }
+      if (e.key == "ArrowUp") {
+        ArrowUp.classList.add("active-toggle");
+      }
+      if (e.key == "ArrowDown") {
+        ArrowDown.classList.add("active-toggle");
+      }
+      if (e.key == "Meta") {
+        win.classList.add("active-toggle");
+      }
+      if (e.code == "ControlLeft") {
+        CtrlLeft.classList.add("active-toggle");
       }
     });
+
     if (e.key == "ArrowLeft") {
       textarea.value = textarea.value + "◄";
     } else if (e.key == "ArrowRight") {
@@ -146,17 +183,24 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener("keyup", (e) => {
   if (e.key != "CapsLock" && e.code != "ShiftLeft" && e.code != "ShiftRight") {
     keys.forEach((el) => {
-      if (
-        e.key == el.getAttribute("keyname") ||
-        e.code == el.getAttribute("keyname") ||
-        e.key == el.getAttribute("keynameUpperCase")
-      ) {
+      if (e.key == el.innerHTML) {
         el.classList.remove("active-toggle");
       }
+
+      if (e.key == "ArrowLeft") {
+        ArrowLeft.classList.remove("active-toggle");
+      } else if (e.key == "ArrowRight") {
+        ArrowRight.classList.remove("active-toggle");
+      } else if (e.key == "ArrowUp") {
+        ArrowUp.classList.remove("active-toggle");
+      } else if (e.key == "ArrowDown") {
+        ArrowDown.classList.remove("active-toggle");
+      } else if (e.key == "Meta") {
+        win.classList.remove("active-toggle");
+      } else if (e.code == "ControlLeft") {
+        CtrlLeft.classList.remove("active-toggle");
+      }
     });
-    if (e.key == "◄") {
-      textarea.selectionStart = textarea.value.length;
-    }
   }
 });
 
@@ -182,9 +226,6 @@ window.addEventListener("keydown", (e) => {
     e.preventDefault();
   }
 });
-
-// the application saves a chosen language after the page is reloaded and displays the keyboard on that language
-// the Del key removes character after the text cursor
 
 const capsLock = document.getElementById("CapsLock");
 
@@ -350,7 +391,6 @@ const changeLanguage = () => {
   }
 };
 
-const win = document.getElementById("Win");
 win.addEventListener("click", () => {
   changeLanguage();
 });
