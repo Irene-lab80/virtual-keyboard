@@ -227,9 +227,6 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
-// the application saves a chosen language after the page is reloaded and displays the keyboard on that language
-// the Del key removes character after the text cursor
-
 const capsLock = document.getElementById("CapsLock");
 
 capsLock.addEventListener("click", () => {
