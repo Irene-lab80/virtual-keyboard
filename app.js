@@ -14,6 +14,7 @@ root.append(textarea);
 const message = document.createElement("div");
 message.classList.add("message");
 
+// array of keys
 let keyboardContainer;
 const keyLayout = [
   "`",
@@ -285,36 +286,33 @@ const keyLayoutRusUpper = [
 
 // CREATE UI
 const createLayout = (lang) => {
-  // create container
   keyboardContainer = document.createElement("div");
-
   keyboardContainer.classList.add("keyboard-container");
   keyboardContainer.classList.add("unselectable");
   root.append(keyboardContainer);
 
   let langLayout;
-  if (lang === "eng") {
+
+  if (lang == "eng") {
     langLayout = keyLayout;
     keyboardContainer.classList.add("keyboard-container-eng");
-  } else if (lang === "rus") {
+  } else if (lang == "rus") {
     langLayout = keyLayoutRus;
     keyboardContainer.classList.add("keyboard-hidden");
     keyboardContainer.classList.add("keyboard-container-rus");
-  } else if (lang === "eng-upper") {
+  } else if (lang == "eng-upper") {
     langLayout = keyLayoutUpper;
     keyboardContainer.classList.add("keyboard-hidden");
     keyboardContainer.classList.add("keyboard-container-upper");
-  } else if (lang === "rus-upper") {
+  } else if (lang == "rus-upper") {
     langLayout = keyLayoutUpper;
     keyboardContainer.classList.add("keyboard-hidden");
     keyboardContainer.classList.add("keyboard-container-rus-upper");
   }
 
   langLayout.forEach((key, index) => {
-    // const insertLineBreak = ["backspace", "ъ", "enter", "."].indexOf(key) !== -1;
     const insertLineBreak =
       index == 13 || index == 28 || index == 41 || index == 54;
-
     const keyElement = document.createElement("div");
     keyElement.classList.add("key");
     keyElement.innerText = key;
@@ -353,10 +351,12 @@ const createLayout = (lang) => {
     }
     if (key == "ShiftLeft") {
       keyElement.classList.add("key_shift_left");
+      keyElement.classList.add("shift");
       keyElement.innerText = "Shift";
     }
     if (key == "ShiftRight") {
       keyElement.classList.add("key_shift_right");
+      keyElement.classList.add("shift");
       keyElement.innerText = "Shift";
     }
     if (key == "AltLeft" || key == "AltRight") {
@@ -374,9 +374,9 @@ const createLayout = (lang) => {
     if (key == "Tab") {
       keyElement.classList.add("key_tab");
     }
-    // if (key == "CapsLock") {
-    //   keyElement.classList.add("capslock");
-    // }
+    if (key == "CapsLock") {
+      keyElement.classList.add("capslock");
+    }
     if (key == "Backspace") {
       keyElement.classList.add("key_backspace");
     }
@@ -409,53 +409,6 @@ createLayout("rus-upper");
 message.innerHTML =
   "<p>Клавиатура создана в операционной системе Windows <br> Для переключения языка комбинация: левыe ctrl + alt</p>";
 root.append(message);
-
-// keyboardContainer ========================================================
-let keyboardContainerEng = document.querySelector(".keyboard-container-eng");
-let keyboardContainerEngUpper = document.querySelector(
-  ".keyboard-container-upper"
-);
-
-let keyboardContainerRus = document.querySelector(".keyboard-container-rus");
-let keyboardContainerRusUpper = document.querySelector(
-  ".keyboard-container-rus-upper"
-);
-
-// uppercase / ================================================================
-window.addEventListener("keydown", (e) => {
-  if (e.key == "Shift") {
-    keyboardContainerEngUpper.classList.remove("keyboard-hidden");
-    keyboardContainerEng.classList.add("keyboard-hidden");
-  }
-});
-
-window.addEventListener("keyup", (e) => {
-  if (e.key == "Shift") {
-    keyboardContainerEngUpper.classList.add("keyboard-hidden");
-    keyboardContainerEng.classList.remove("keyboard-hidden");
-  }
-});
-
-// CHANGE LANGUAGE =============================================================
-let flag = false;
-
-document.onkeydown = function (e) {
-  if (e.code == "ControlLeft") flag = true;
-  if (e.code == "AltLeft" && flag) {
-    flag = false;
-    keyboardContainerRus.classList.toggle("keyboard-hidden");
-    // keyboardContainerRusUpper.classList.toggle("keyboard-hidden");
-
-    keyboardContainerEng.classList.toggle("keyboard-hidden");
-    // keyboardContainerEngUpper.classList.toggle("keyboard-hidden");
-  }
-};
-
-// const CapsLock = document.querySelector(".capslock");
-
-// CapsLock.addEventListener("click", () => {
-//   CapsLock.classList.toggle("active");
-// });
 
 // clicks on virtual keyboard
 let keys = document.querySelectorAll(".key");
@@ -503,6 +456,8 @@ keys.forEach((el) =>
   el.addEventListener("mousedown", () => {
     if (el.getAttribute("keyname") == "CapsLock") {
       el.classList.toggle("active");
+    } else if (el.getAttribute("keyname") == "ShiftLeft") {
+      el.classList.toggle("active");
     } else {
       el.classList.add("active");
     }
@@ -513,7 +468,10 @@ keys.forEach((el) =>
 // remove active class from virtual keyboard keys
 keys.forEach((el) =>
   el.addEventListener("mouseup", () => {
-    if (el.getAttribute("keyname") != "CapsLock") {
+    if (
+      el.getAttribute("keyname") != "CapsLock" &&
+      el.getAttribute("keyname") != "ShiftLeft"
+    ) {
       el.classList.remove("active");
     }
   })
@@ -521,6 +479,7 @@ keys.forEach((el) =>
 
 //clicks on real keyboard
 window.addEventListener("keydown", (e) => {
+  console.log(e);
   textarea.focus();
   keys.forEach((el) => {
     if (
@@ -530,6 +489,9 @@ window.addEventListener("keydown", (e) => {
     ) {
       el.classList.add("active");
     }
+    // if (e.key == el.getAttribute("keyname")) {
+    //   el.classList.toggle("active");
+    // }
   });
   if (e.key == "ArrowLeft") {
     textarea.value = textarea.value + "◄";
