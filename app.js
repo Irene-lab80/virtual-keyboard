@@ -1,7 +1,7 @@
-import { keyLayout, keyLayoutRusUpper } from "./keys.js";
+import { keyLayout } from "./keys.js";
 import { keyLayoutUpper } from "./keys.js";
 import { keyLayoutRus } from "./keys.js";
-// import { keyLayoutRusUpper } from "./keys.js";
+import { keyLayoutRusUpper } from "./keys.js";
 import Keyboard from "./keyboard.js";
 
 // CREATE UI
@@ -9,30 +9,24 @@ const keyboard = new Keyboard();
 keyboard.createKeys(keyLayout);
 
 let keys = document.querySelectorAll(".key");
-
-// keys.forEach((key) => {
-//   // key.setAttribute('id', `${Object.keys(keyCodes.keyCodes)[index]}`);
-
-//   // key.setAttribute("keyname", key.innerHTML);
-//   // key.setAttribute("keynameUpperCase", key.toUpperCase());
-// });
+keys.forEach((key) => {
+  key.setAttribute("id", key.innerHTML);
+});
 
 //styles for ui
 keys.forEach((key) => {
   let keyCode = key.getAttribute("keyname");
   if (
     keyCode == "Caps" ||
-    keyCode == "ShiftLeft" ||
-    keyCode == "ShiftRight" ||
+    keyCode == "ShiftL" ||
+    keyCode == "ShiftR" ||
     keyCode == "Enter" ||
     keyCode == "Backspace" ||
     keyCode == "Tab" ||
     keyCode == "CapsLock" ||
-    keyCode == "ControlLeft" ||
-    keyCode == "ControlRight" ||
-    keyCode == "AltLeft" ||
-    keyCode == "AltRight" ||
-    keyCode == "MetaLeft" ||
+    keyCode == "Ctrl" ||
+    keyCode == "Alt" ||
+    keyCode == "Win" ||
     keyCode == "Del" ||
     keyCode == "Space" ||
     keyCode == "◄" ||
@@ -45,25 +39,16 @@ keys.forEach((key) => {
   if (keyCode == "Space") {
     key.classList.add("key_space");
   }
-  if (keyCode == "ShiftLeft") {
+  if (keyCode == "ShiftL") {
     key.classList.add("key_shift_left");
     key.classList.add("shift");
-    key.innerText = "Shift";
   }
-  if (keyCode == "ShiftRight") {
+  if (keyCode == "ShiftR") {
     key.classList.add("key_shift_right");
     key.classList.add("shift");
-    key.innerText = "Shift";
   }
-  if (keyCode == "AltLeft" || keyCode == "AltRight") {
+  if (keyCode == "Alt" || keyCode == "Alt") {
     key.innerText = "Alt";
-  }
-  if (keyCode == "MetaLeft") {
-    key.innerText = "Win";
-    key.classList.add("win");
-  }
-  if (keyCode == "ControlLeft" || keyCode == "ControlRight") {
-    key.innerText = "Ctrl";
   }
   if (keyCode == "Enter" || keyCode == "CapsLock") {
     key.classList.add("key_wide");
@@ -94,13 +79,13 @@ keys.forEach((el) =>
     } else if (el.getAttribute("keyname") == "Tab") {
       textarea.value = textarea.value + "    ";
     } else if (
-      el.getAttribute("keyname") == "AltLeft" ||
-      el.getAttribute("keyname") == "AltRight" ||
-      el.getAttribute("keyname") == "ControlLeft" ||
-      el.getAttribute("keyname") == "ControlRight" ||
-      el.getAttribute("keyname") == "MetaLeft" ||
-      el.getAttribute("keyname") == "ShiftLeft" ||
-      el.getAttribute("keyname") == "ShiftRight" ||
+      el.getAttribute("keyname") == "Alt" ||
+      el.getAttribute("keyname") == "Alt" ||
+      el.getAttribute("keyname") == "Ctrl" ||
+      el.getAttribute("keyname") == "Ctrl" ||
+      el.getAttribute("keyname") == "Win" ||
+      el.getAttribute("keyname") == "ShiftL" ||
+      el.getAttribute("keyname") == "ShiftR" ||
       el.getAttribute("keyname") == "CapsLock"
     ) {
       textarea.value;
@@ -115,8 +100,8 @@ keys.forEach((el) =>
   el.addEventListener("mousedown", () => {
     if (
       el.getAttribute("keyname") != "CapsLock" &&
-      el.getAttribute("keyname") != "ShiftLeft" &&
-      el.getAttribute("keyname") != "ShiftRight"
+      el.getAttribute("keyname") != "ShiftL" &&
+      el.getAttribute("keyname") != "ShiftR"
     ) {
       el.classList.add("active");
       textarea.focus();
@@ -130,8 +115,8 @@ const removeActive = () => {
   keys.forEach((el) => {
     if (
       el.getAttribute("keyname") != "CapsLock" &&
-      el.getAttribute("keyname") != "ShiftLeft" &&
-      el.getAttribute("keyname") != "ShifRight"
+      el.getAttribute("keyname") != "ShiftL" &&
+      el.getAttribute("keyname") != "ShiftR"
     ) {
       el.classList.remove("active");
     }
@@ -141,6 +126,9 @@ const removeActive = () => {
 //clicks on real keyboard
 window.addEventListener("keydown", (e) => {
   textarea.focus();
+  if (e.repeat) {
+    return;
+  }
   if (e.key != "CapsLock" && e.code != "ShiftLeft" && e.code != "ShiftRight") {
     keys.forEach((el) => {
       if (
@@ -148,27 +136,37 @@ window.addEventListener("keydown", (e) => {
         e.code == el.getAttribute("keyname") ||
         e.key == el.getAttribute("keynameUpperCase")
       ) {
-        el.classList.add("active");
+        el.classList.add("active-toggle");
       }
-      setTimeout(removeActive, 300);
+    });
+    if (e.key == "ArrowLeft") {
+      textarea.value = textarea.value + "◄";
+    } else if (e.key == "ArrowRight") {
+      textarea.value = textarea.value + "►";
+    } else if (e.key == "ArrowUp") {
+      textarea.value = textarea.value + "▲";
+    } else if (e.key == "ArrowDown") {
+      textarea.value = textarea.value + "▼";
+    }
+  }
+});
+
+window.addEventListener("keyup", (e) => {
+  if (e.key != "CapsLock" && e.code != "ShiftLeft" && e.code != "ShiftRight") {
+    keys.forEach((el) => {
+      if (
+        e.key == el.getAttribute("keyname") ||
+        e.code == el.getAttribute("keyname") ||
+        e.key == el.getAttribute("keynameUpperCase")
+      ) {
+        el.classList.remove("active-toggle");
+      }
     });
     if (e.key == "◄") {
       textarea.selectionStart = textarea.value.length;
     }
   }
 });
-
-// window.addEventListener("keyup", (e) => {
-//   keys.forEach((el) => {
-//     if (
-//       e.key == el.getAttribute("keyname") ||
-//       e.code == el.getAttribute("keyname") ||
-//       e.key == el.getAttribute("keynameUpperCase")
-//     ) {
-//       el.classList.remove("active");
-//     }
-//   });
-// });
 
 // PREVENT DEFAULT ===========================================
 window.addEventListener("keydown", (e) => {
@@ -312,7 +310,17 @@ const changeLanguage = () => {
   }
 };
 
-const win = document.querySelector(".win");
+const win = document.getElementById("Win");
 win.addEventListener("click", () => {
   changeLanguage();
 });
+
+document.onkeydown = (e) => {
+  if (e.code == "ControlLeft") {
+    document.onkeyup = (e) => {
+      if (e.code == "AltLeft") {
+        changeLanguage();
+      }
+    };
+  }
+};
