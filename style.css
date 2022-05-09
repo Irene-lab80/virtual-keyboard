@@ -1,0 +1,127 @@
+body{
+  /* background: hsl(47, 13%, 86%); */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  font-size: 16px;
+  line-height: 16px;
+}
+
+.key {
+  background: rgb(255, 255, 255);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid grey;
+  cursor: pointer;
+  transition: all .2s;
+  width: 40px;
+  height: 40px;
+  margin: 4px;
+  font-weight: 600;
+  color: #4b4b4b;
+}
+
+.key_space {
+  width: 360px;
+}
+
+.key_backspace {
+  width: 110px;
+}
+
+.key_wide {
+  width: 100px;
+}
+
+.key_shift_left {
+  width: 110px;
+}
+
+.key_shift_right {
+  width: 90px;
+}
+
+.key_medium {
+  width: 86px;
+}
+
+.key_tab {
+  width: 60px;
+}
+
+.key_colored {  
+  background: rgb(230, 208, 208);
+}
+
+
+/* 
+.key:hover {
+  transform: scale(90%);
+} */
+
+.keyboard-container {
+  text-align: center;
+  background: rgb(208, 205, 205);
+  /* width: 770px; */
+  padding: 10px;
+  border: 1px solid grey;
+  border-radius: 10px;
+}
+
+.textarea {
+  display: flex;
+  width: 782px;
+  height: 50px;
+  margin: 20px 0;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.message p {
+  line-height: 30px;
+}
+
+.unselectable {
+  user-select: none;
+}
+
+.keyboard-hidden {
+  display: none;
+}
+
+.active-toggle {
+  transform: scale(90%);
+  background: rgb(230, 139, 166);
+} 
+
+/* .active {
+  transform: scale(90%);
+  background: rgb(230, 139, 166);
+} */
+
+ .active {
+  animation-duration: 0.5s;
+  animation-name: keypress;
+} 
+
+ @keyframes keypress {
+  0% {
+    transform: scale(100%);
+
+  } 
+
+  50% {
+    transform: scale(90%);
+    background: rgb(230, 139, 166);
+
+  }
+  to {
+    transform: scale(100%);
+
+  }
+} 
+
