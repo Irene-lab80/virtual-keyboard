@@ -21,6 +21,8 @@ body{
   width: 40px;
   height: 40px;
   margin: 4px;
+  font-weight: 600;
+  color: #4b4b4b;
 }
 
 .key_space {
@@ -55,15 +57,11 @@ body{
   background: rgb(230, 208, 208);
 }
 
-.active {
-  transform: scale(90%);
-  /* border-radius: 50%; */
-  background: rgb(230, 139, 166);
-}
 
+/* 
 .key:hover {
   transform: scale(90%);
-}
+} */
 
 .keyboard-container {
   text-align: center;
@@ -83,11 +81,6 @@ body{
   font-size: 20px;
 }
 
-.arrow {
-  font-weight: 600;
-  color: #4b4b4b;
-}
-
 .message p {
   line-height: 30px;
 }
@@ -98,4 +91,31 @@ body{
 
 .keyboard-hidden {
   display: none;
+}
+
+.active-toggle {
+  transform: scale(90%);
+  background: rgb(230, 139, 166);
+} 
+
+.active {
+  animation-duration: 0.5s;
+  animation-name: keypress;
+}
+
+@keyframes keypress {
+  0% {
+    transform: scale(100%);
+
+  }
+
+  50% {
+    transform: scale(90%);
+    background: rgb(230, 139, 166);
+
+  }
+  to {
+    transform: scale(100%);
+
+  }
 }
