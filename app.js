@@ -10,6 +10,13 @@ keyboard.createKeys(keyLayout);
 
 let keys = document.querySelectorAll(".key");
 
+// keys.forEach((key) => {
+//   // key.setAttribute('id', `${Object.keys(keyCodes.keyCodes)[index]}`);
+
+//   // key.setAttribute("keyname", key.innerHTML);
+//   // key.setAttribute("keynameUpperCase", key.toUpperCase());
+// });
+
 //styles for ui
 keys.forEach((key) => {
   let keyCode = key.getAttribute("keyname");
@@ -28,10 +35,10 @@ keys.forEach((key) => {
     keyCode == "MetaLeft" ||
     keyCode == "Del" ||
     keyCode == "Space" ||
-    keyCode == "ArrowLeft" ||
-    keyCode == "ArrowRight" ||
-    keyCode == "ArrowUp" ||
-    keyCode == "ArrowDown"
+    keyCode == "◄" ||
+    keyCode == "►" ||
+    keyCode == "▲" ||
+    keyCode == "▼"
   ) {
     key.classList.add("key_colored");
   }
@@ -53,6 +60,7 @@ keys.forEach((key) => {
   }
   if (keyCode == "MetaLeft") {
     key.innerText = "Win";
+    key.classList.add("win");
   }
   if (keyCode == "ControlLeft" || keyCode == "ControlRight") {
     key.innerText = "Ctrl";
@@ -68,18 +76,6 @@ keys.forEach((key) => {
   }
   if (keyCode == "Backspace") {
     key.classList.add("key_backspace");
-  }
-  if (keyCode == "ArrowLeft") {
-    key.innerHTML = "◄";
-  }
-  if (keyCode == "ArrowRight") {
-    key.innerHTML = "►";
-  }
-  if (keyCode == "ArrowUp") {
-    key.innerHTML = "▲";
-  }
-  if (keyCode == "ArrowDown") {
-    key.innerHTML = "▼";
   }
 });
 
@@ -108,16 +104,8 @@ keys.forEach((el) =>
       el.getAttribute("keyname") == "CapsLock"
     ) {
       textarea.value;
-    } else if (el.getAttribute("keyname") == "ArrowLeft") {
-      textarea.value = textarea.value + "◄";
-    } else if (el.getAttribute("keyname") == "ArrowRight") {
-      textarea.value = textarea.value + "►";
-    } else if (el.getAttribute("keyname") == "ArrowUp") {
-      textarea.value = textarea.value + "▲";
-    } else if (el.getAttribute("keyname") == "ArrowDown") {
-      textarea.value = textarea.value + "▼";
     } else {
-      textarea.value = textarea.value + el.getAttribute("keyname");
+      textarea.value = textarea.value + el.innerHTML;
     }
   })
 );
@@ -164,18 +152,8 @@ window.addEventListener("keydown", (e) => {
       }
       setTimeout(removeActive, 300);
     });
-    if (e.key == "ArrowLeft") {
-      textarea.value = textarea.value + "◄";
+    if (e.key == "◄") {
       textarea.selectionStart = textarea.value.length;
-    }
-    if (e.key == "ArrowRight") {
-      textarea.value = textarea.value + "►";
-    }
-    if (e.key == "ArrowUp") {
-      textarea.value = textarea.value + "▲";
-    }
-    if (e.key == "ArrowDown") {
-      textarea.value = textarea.value + "▼";
     }
   }
 });
@@ -240,13 +218,13 @@ shift.addEventListener("mouseup", () => {
 });
 
 window.addEventListener("keydown", (e) => {
-  if (e.key == "Shift") {
+  if (e.code === "ShiftLeft" || e.code === "ShiftRigth") {
     shift.classList.add("active-toggle");
   }
 });
 
 window.addEventListener("keyup", (e) => {
-  if (e.key == "Shift") {
+  if (e.code === "ShiftLeft" || e.code === "ShiftRigth") {
     shift.classList.remove("active-toggle");
   }
 });
@@ -274,6 +252,9 @@ const uppercase = () => {
 // CAPSLOCK UPPERCASE
 window.addEventListener("keydown", (e) => {
   if (e.key == "CapsLock") {
+    if (e.repeat) {
+      return;
+    }
     uppercase();
   }
 });
@@ -285,7 +266,7 @@ capsLock.addEventListener("click", () => {
 // SHIFT UPPERCASE
 // shift keydown
 window.addEventListener("keydown", (e) => {
-  if (e.key == "Shift") {
+  if (e.code === "ShiftLeft" || e.code === "ShiftRigth") {
     if (e.repeat) {
       return;
     }
@@ -294,7 +275,7 @@ window.addEventListener("keydown", (e) => {
 });
 
 window.addEventListener("keyup", (e) => {
-  if (e.key == "Shift") {
+  if (e.code === "ShiftLeft" || e.code === "ShiftRigth") {
     if (e.repeat) {
       return;
     }
@@ -309,4 +290,29 @@ shift.addEventListener("mousedown", () => {
 
 shift.addEventListener("mouseup", () => {
   uppercase();
+});
+
+const changeLanguage = () => {
+  if (keys[15].textContent === "q") {
+    keys.forEach((key, index) => {
+      key.innerHTML = keyLayoutRus[index];
+    });
+  } else if (keys[15].textContent === "Q") {
+    keys.forEach((key, index) => {
+      key.innerHTML = keyLayoutRusUpper[index];
+    });
+  } else if (keys[15].textContent === "й") {
+    keys.forEach((key, index) => {
+      key.innerHTML = keyLayout[index];
+    });
+  } else if (keys[15].textContent === "Й") {
+    keys.forEach((key, index) => {
+      key.innerHTML = keyLayoutUpper[index];
+    });
+  }
+};
+
+const win = document.querySelector(".win");
+win.addEventListener("click", () => {
+  changeLanguage();
 });
