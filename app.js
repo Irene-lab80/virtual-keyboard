@@ -1,417 +1,93 @@
-const root = document.getElementById("root");
-// create title
-const title = document.createElement("h1");
-title.classList.add("title");
-title.innerHTML = "RSS Virtual Keyboard";
-root.append(title);
-
-// create textarea
-const textarea = document.createElement("textarea");
-textarea.classList.add("textarea");
-root.append(textarea);
-
-// create message
-const message = document.createElement("div");
-message.classList.add("message");
-
-// array of keys
-let keyboardContainer;
-const keyLayout = [
-  "`",
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "0",
-  "-",
-  "=",
-  "Backspace",
-  "Tab",
-  "q",
-  "w",
-  "e",
-  "r",
-  "t",
-  "y",
-  "u",
-  "i",
-  "o",
-  "p",
-  "[",
-  "]",
-  "\\",
-  "Del",
-  "CapsLock",
-  "a",
-  "s",
-  "d",
-  "f",
-  "g",
-  "h",
-  "j",
-  "k",
-  "l",
-  ";",
-  "'",
-  "Enter",
-  "ShiftLeft",
-  "z",
-  "x",
-  "c",
-  "v",
-  "b",
-  "n",
-  "m",
-  ",",
-  ".",
-  "/",
-  "ArrowUp",
-  "ShiftRight",
-  "ControlLeft",
-  "MetaLeft",
-  "AltLeft",
-  "Space",
-  "AltRight",
-  "ArrowLeft",
-  "ArrowDown",
-  "ArrowRight",
-  "ControlRight",
-];
-
-const keyLayoutUpper = [
-  "`",
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "0",
-  "-",
-  "=",
-  "Backspace",
-  "Tab",
-  "Q",
-  "W",
-  "E",
-  "R",
-  "T",
-  "Y",
-  "U",
-  "I",
-  "O",
-  "P",
-  "{",
-  "}",
-  "|",
-  "Del",
-  "CapsLock",
-  "A",
-  "S",
-  "D",
-  "F",
-  "G",
-  "H",
-  "J",
-  "K",
-  "L",
-  ":",
-  '"',
-  "Enter",
-  "ShiftLeft",
-  "Z",
-  "X",
-  "C",
-  "V",
-  "B",
-  "N",
-  "M",
-  "<",
-  ">",
-  "?",
-  "ArrowUp",
-  "ShiftRight",
-  "ControlLeft",
-  "MetaLeft",
-  "AltLeft",
-  "Space",
-  "AltRight",
-  "ArrowLeft",
-  "ArrowDown",
-  "ArrowRight",
-  "ControlRight",
-];
-
-const keyLayoutRus = [
-  "ё",
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "0",
-  "-",
-  "=",
-  "Backspace",
-  "Tab",
-  "й",
-  "ц",
-  "у",
-  "к",
-  "е",
-  "н",
-  "г",
-  "ш",
-  "щ",
-  "з",
-  "х",
-  "ъ",
-  "\\",
-  "Del",
-  "CapsLock",
-  "ф",
-  "ы",
-  "в",
-  "а",
-  "п",
-  "р",
-  "о",
-  "л",
-  "д",
-  "ж",
-  "э",
-  "Enter",
-  "ShiftLeft",
-  "я",
-  "ч",
-  "с",
-  "м",
-  "и",
-  "т",
-  "ь",
-  "б",
-  "ю",
-  ".",
-  "ArrowUp",
-  "ShiftRight",
-  "ControlLeft",
-  "MetaLeft",
-  "AltLeft",
-  "Space",
-  "AltRight",
-  "ArrowLeft",
-  "ArrowDown",
-  "ArrowRight",
-  "ControlRight",
-];
-
-const keyLayoutRusUpper = [
-  "Ё",
-  "!",
-  '"',
-  "№",
-  ";",
-  "%",
-  ":",
-  "?",
-  "*",
-  "(",
-  ")",
-  "_",
-  "+",
-  "Backspace",
-  "Tab",
-  "Й",
-  "Ц",
-  "У",
-  "К",
-  "Е",
-  "Н",
-  "Г",
-  "Ш",
-  "Щ",
-  "З",
-  "Х",
-  "Ъ",
-  "/",
-  "Del",
-  "CapsLock",
-  "Ф",
-  "Ы",
-  "В",
-  "А",
-  "П",
-  "Р",
-  "О",
-  "Л",
-  "Д",
-  "Ж",
-  "Э",
-  "Enter",
-  "ShiftLeft",
-  "Я",
-  "Ч",
-  "С",
-  "М",
-  "И",
-  "Т",
-  "Ь",
-  "Б",
-  "Ю",
-  ",",
-  "ArrowUp",
-  "ShiftRight",
-  "ControlLeft",
-  "MetaLeft",
-  "AltLeft",
-  "Space",
-  "AltRight",
-  "ArrowLeft",
-  "ArrowDown",
-  "ArrowRight",
-  "ControlRight",
-];
+import { keyLayout } from "./keys.js";
+import { keyLayoutUpper } from "./keys.js";
+import { keyLayoutRus } from "./keys.js";
+// import { keyLayoutRusUpper } from "./keys.js";
+import Keyboard from "./keyboard.js";
 
 // CREATE UI
-const createLayout = (lang) => {
-  keyboardContainer = document.createElement("div");
-  keyboardContainer.classList.add("keyboard-container");
-  keyboardContainer.classList.add("unselectable");
-  root.append(keyboardContainer);
+const keyboard = new Keyboard();
+keyboard.createKeys(keyLayout);
 
-  let langLayout;
+let keys = document.querySelectorAll(".key");
 
-  if (lang == "eng") {
-    langLayout = keyLayout;
-    keyboardContainer.classList.add("keyboard-container-eng");
-  } else if (lang == "rus") {
-    langLayout = keyLayoutRus;
-    keyboardContainer.classList.add("keyboard-hidden");
-    keyboardContainer.classList.add("keyboard-container-rus");
-  } else if (lang == "eng-upper") {
-    langLayout = keyLayoutUpper;
-    keyboardContainer.classList.add("keyboard-hidden");
-    keyboardContainer.classList.add("keyboard-container-upper");
-  } else if (lang == "rus-upper") {
-    langLayout = keyLayoutUpper;
-    keyboardContainer.classList.add("keyboard-hidden");
-    keyboardContainer.classList.add("keyboard-container-rus-upper");
+keys.forEach((key) => {
+  let keyCode = key.getAttribute("keyname");
+  if (
+    keyCode == "Caps" ||
+    keyCode == "ShiftLeft" ||
+    keyCode == "ShiftRight" ||
+    keyCode == "Enter" ||
+    keyCode == "Backspace" ||
+    keyCode == "Tab" ||
+    keyCode == "CapsLock" ||
+    keyCode == "ControlLeft" ||
+    keyCode == "ControlRight" ||
+    keyCode == "AltLeft" ||
+    keyCode == "AltRight" ||
+    keyCode == "CapsLock" ||
+    keyCode == "MetaLeft" ||
+    keyCode == "Del" ||
+    keyCode == "Space" ||
+    keyCode == "ArrowLeft" ||
+    keyCode == "ArrowRight" ||
+    keyCode == "ArrowUp" ||
+    keyCode == "ArrowDown"
+  ) {
+    key.classList.add("key_colored");
   }
-
-  langLayout.forEach((key, index) => {
-    const insertLineBreak =
-      index == 13 || index == 28 || index == 41 || index == 54;
-    const keyElement = document.createElement("div");
-    keyElement.classList.add("key");
-    keyElement.innerText = key;
-    keyElement.setAttribute("keyname", key);
-    keyElement.setAttribute("keynameUpperCase", key.toUpperCase());
-    keyboardContainer.append(keyElement);
-
-    if (insertLineBreak) {
-      keyboardContainer.append(document.createElement("br"));
-    }
-    if (
-      key == "Caps" ||
-      key == "ShiftLeft" ||
-      key == "ShiftRight" ||
-      key == "Enter" ||
-      key == "Backspace" ||
-      key == "Tab" ||
-      key == "CapsLock" ||
-      key == "ControlLeft" ||
-      key == "ControlRight" ||
-      key == "AltLeft" ||
-      key == "AltRight" ||
-      key == "CapsLock" ||
-      key == "MetaLeft" ||
-      key == "Del" ||
-      key == "Space" ||
-      key == "ArrowLeft" ||
-      key == "ArrowRight" ||
-      key == "ArrowUp" ||
-      key == "ArrowDown"
-    ) {
-      keyElement.classList.add("key_colored");
-    }
-    if (key == "Space") {
-      keyElement.classList.add("key_space");
-    }
-    if (key == "ShiftLeft") {
-      keyElement.classList.add("key_shift_left");
-      keyElement.classList.add("shift");
-      keyElement.innerText = "Shift";
-    }
-    if (key == "ShiftRight") {
-      keyElement.classList.add("key_shift_right");
-      keyElement.classList.add("shift");
-      keyElement.innerText = "Shift";
-    }
-    if (key == "AltLeft" || key == "AltRight") {
-      keyElement.innerText = "Alt";
-    }
-    if (key == "MetaLeft") {
-      keyElement.innerText = "Win";
-    }
-    if (key == "ControlLeft" || key == "ControlRight") {
-      keyElement.innerText = "Ctrl";
-    }
-    if (key == "Enter" || key == "CapsLock") {
-      keyElement.classList.add("key_wide");
-    }
-    if (key == "Tab") {
-      keyElement.classList.add("key_tab");
-    }
-    if (key == "CapsLock") {
-      keyElement.classList.add("capslock");
-    }
-    if (key == "Backspace") {
-      keyElement.classList.add("key_backspace");
-    }
-    if (key == "ArrowLeft") {
-      keyElement.innerHTML = "◄";
-      keyElement.classList.add("arrow");
-    }
-    if (key == "ArrowRight") {
-      keyElement.innerHTML = "►";
-      keyElement.classList.add("arrow");
-    }
-    if (key == "ArrowUp") {
-      keyElement.innerHTML = "▲";
-      keyElement.classList.add("arrow");
-    }
-    if (key == "ArrowDown") {
-      keyElement.innerHTML = "▼";
-      keyElement.classList.add("arrow");
-    }
-  });
-};
-
-// create layouts / ================================================================
-createLayout("eng");
-createLayout("eng-upper");
-createLayout("rus");
-createLayout("rus-upper");
-
-//create message
-message.innerHTML =
-  "<p>Клавиатура создана в операционной системе Windows <br> Для переключения языка комбинация: левыe ctrl + alt</p>";
-root.append(message);
+  if (keyCode == "Space") {
+    key.classList.add("key_space");
+  }
+  if (keyCode == "ShiftLeft") {
+    key.classList.add("key_shift_left");
+    key.classList.add("shift");
+    key.innerText = "Shift";
+  }
+  if (keyCode == "ShiftRight") {
+    key.classList.add("key_shift_right");
+    key.classList.add("shift");
+    key.innerText = "Shift";
+  }
+  if (keyCode == "AltLeft" || key == "AltRight") {
+    key.innerText = "Alt";
+  }
+  if (keyCode == "MetaLeft") {
+    key.innerText = "Win";
+  }
+  if (keyCode == "ControlLeft" || key == "ControlRight") {
+    key.innerText = "Ctrl";
+  }
+  if (keyCode == "Enter" || key == "CapsLock") {
+    key.classList.add("key_wide");
+  }
+  if (keyCode == "Tab") {
+    key.classList.add("key_tab");
+  }
+  if (keyCode == "CapsLock") {
+    key.classList.add("capslock");
+  }
+  if (keyCode == "Backspace") {
+    key.classList.add("key_backspace");
+  }
+  if (keyCode == "ArrowLeft") {
+    key.innerHTML = "◄";
+    key.classList.add("arrow");
+  }
+  if (keyCode == "ArrowRight") {
+    key.innerHTML = "►";
+    key.classList.add("arrow");
+  }
+  if (keyCode == "ArrowUp") {
+    key.innerHTML = "▲";
+    key.classList.add("arrow");
+  }
+  if (keyCode == "ArrowDown") {
+    key.innerHTML = "▼";
+    key.classList.add("arrow");
+  }
+});
 
 // clicks on virtual keyboard
-let keys = document.querySelectorAll(".key");
 
 // listen for clicks on virtual keyboard
 keys.forEach((el) =>
