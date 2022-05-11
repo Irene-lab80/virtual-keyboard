@@ -112,6 +112,7 @@ keys.forEach((el) => el.addEventListener('mousedown', () => {
     setTimeout(removeActive, 300);
   }
 }));
+
 const ArrowLeft = document.getElementById('◄');
 const ArrowRight = document.getElementById('►');
 const ArrowUp = document.getElementById('▲');
@@ -391,12 +392,8 @@ win.addEventListener('click', () => {
   changeLanguage();
 });
 
-document.onkeydown = (e) => {
-  if (e.code === 'ControlLeft') {
-    document.onkeyup = (evt) => {
-      if (evt.code === 'AltLeft') {
-        changeLanguage();
-      }
-    };
+window.addEventListener('keydown', (event) => {
+  if (event.ctrlKey && event.altKey) {
+    changeLanguage();
   }
-};
+});
